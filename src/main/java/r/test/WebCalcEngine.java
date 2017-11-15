@@ -14,7 +14,9 @@ public class WebCalcEngine implements WebCalc {
 	static Logger log = Logger.getLogger(WebCalcEngine.class.getName());
 
 	public String Compute(String expr) {
-        String result;
+        String result="";
+        float a,c;
+
 
         boolean b = Pattern.matches("^[0-9]+[+-/*]{1}[0-9]+$", expr);
         log.info("Evaluating string [" + expr + "]");
@@ -26,12 +28,34 @@ public class WebCalcEngine implements WebCalc {
 			result = "Input string contains wrong symbols. Only digits and + - / * allowed";
 	    }
 		else {
-			result = "All checks passed...";
 
+	        String patternString = "[+-/*]{1}";
+	        Pattern pattern = Pattern.compile(patternString);
+	        String[] split = pattern.split(expr);
+
+	        a = Float.parseFloat(split[0]);
+            c = Float.parseFloat(split[1]);
+/*
+	        for(String element : split){
+	            result += element;
+	        }
+*/
+	        if (expr.indexOf('+') != -1) {
+	            result = Float.toString(a+c);
+	        }
+	        else if (expr.indexOf('-') != -1) {
+	        	result = Float.toString(a-c);
+	        }
+	        else if (expr.indexOf('/') != -1) {
+	        	result = Float.toString(a/c);
+	        }
+	        else {
+	        	result = Float.toString(a*c);
+
+	        }
 		}
-		log.info("Evaluating complete!");
-
-		return result + " input:" +expr;
+		log.info("Evaluation complete!");
+		return result;
 
     }
 }
